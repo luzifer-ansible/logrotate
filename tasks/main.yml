@@ -1,0 +1,18 @@
+---
+
+- name: Ensure logrotate is installed
+  apt:
+    name: logrotate
+
+- name: Install custom logrotate files
+  template:
+    src: templates/logrotate.j2
+    dest: '/etc/logrotate.d/{{ item.name }}'
+  with_items: '{{ logrotate_configs | default([]) }}'
+
+- name: Test custom configurations
+  command: 'logrotate -d /etc/logrotate.d/{{ item.name }}'
+  with_items: '{{ logrotate_configs | default([]) }}'
+  changed_when: no
+
+...

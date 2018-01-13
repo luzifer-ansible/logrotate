@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+{{ item.paths | join(" ") }} {
+{% for line in item.lines %}
+  {{ line }}
+{% endfor %}
+{% for name, command in item.scripts | default({}) %}
+
+  {{ name }}
+    {{ command }}
+  endscript
+{% endfor %}
+}
