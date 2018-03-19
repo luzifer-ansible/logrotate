@@ -4,6 +4,11 @@
   apt:
     name: logrotate
 
+- name: Get logrotate version
+  command: 'logrotate --version'
+  changed_when: no
+  register: logrotate_version
+
 - name: Install custom logrotate files
   template:
     src: templates/logrotate.j2
@@ -14,5 +19,6 @@
   command: 'logrotate -d /etc/logrotate.d/{{ item.name }}'
   with_items: '{{ logrotate_configs | default([]) }}'
   changed_when: no
+  when: not '3.8.' in logrotate_version.stderr
 
 ...
