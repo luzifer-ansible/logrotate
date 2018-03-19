@@ -3,6 +3,7 @@
 - name: Ensure logrotate is installed
   apt:
     name: logrotate
+    cache_valid_time: 86400
 
 - name: Get logrotate version
   command: 'logrotate --version'
